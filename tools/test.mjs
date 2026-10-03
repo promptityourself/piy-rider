@@ -3049,6 +3049,22 @@ console.log('the rules Google publishes, and the record that keeps them current:
   check('  …en-UK is a finding, because the country code is GB',
     bad?.outcome === 'fix' && /cannot parse/.test(bad.message), bad?.message);
 
+  // Google: "other codes that aren't listed in those standards, such as es-419,
+  // aren't supported" — valid BCP 47 is not enough. The control is the widest
+  // form Google does accept: a script and a region, in any case.
+  for (const code of ['es-419', 'fil']) {
+    const alts = A(code, 'https://ex.test/') + A('hu', 'https://ex.test/hu');
+    const r = row(mkPair(alts, alts), 'seo', 'seo/hreflang-valid');
+    check(`  …${code} is a finding — valid BCP 47, but not a code Google supports`,
+      r?.outcome === 'fix' && /cannot parse/.test(r.message), r?.message);
+  }
+  for (const code of ['zh-Hans-US', 'en-gb', 'EN-GB']) {
+    const alts = A(code, 'https://ex.test/') + A('hu', 'https://ex.test/hu');
+    const r = row(mkPair(alts, alts), 'seo', 'seo/hreflang-valid');
+    check(`  …${code} passes — script and region are allowed, and case is not a rule`,
+      r?.outcome === 'pass', r?.message);
+  }
+
   const noSelf = row(mkPair(A('hu', 'https://ex.test/hu'), A('en', 'https://ex.test/')), 'seo', 'seo/hreflang-valid');
   check('  …a page that does not list itself is a finding',
     noSelf?.outcome === 'fix' && /do not list themselves/.test(noSelf.message), noSelf?.message);

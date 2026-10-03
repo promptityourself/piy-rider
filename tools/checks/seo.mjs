@@ -1145,17 +1145,22 @@ const hasViewport = (html) => hasFilledMeta(html, 'viewport');
  *
  *   - fully-qualified hrefs. "Alternate URLs must be fully-qualified, including
  *     the transport method." 13 pages of one real site declare `../fr/`.
- *   - a language subtag Google parses: ISO 639-1, optionally a script, optionally
- *     an ISO 3166-1 alpha-2 region or a UN M.49 numeric one. `en-UK` is the
- *     classic error (the country is GB), and one real site ships
- *     `en-AE-x-dubai`, a private-use tag Google does not read.
+ *   - a language subtag Google parses: ISO 639-1, optionally an ISO 15924
+ *     script, optionally an ISO 3166-1 alpha-2 region — and nothing else. "Only
+ *     language codes listed in ISO 639-1 and region codes listed in ISO 3166-1
+ *     Alpha 2 are supported; other codes … such as es-419, aren't supported."
+ *     So a three-letter language (`fil`) and a UN M.49 region (`es-419`) are
+ *     findings, though both are valid BCP 47. `en-UK` is the classic error (the
+ *     country is GB), and one real site ships `en-AE-x-dubai`, a private-use
+ *     tag Google does not read. Case does not matter: "The hreflang value is
+ *     case-insensitive" — uppercase regions are convention, not a rule.
  *   - self-reference: "each language version must list itself".
  *   - return links: "if page X links to page Y, page Y must link back to page X",
  *     or the annotations may be ignored. Checked only between pages this build
  *     produced — an alternate on another host is not ours to verify.
  *
  * Verified against developers.google.com/search/docs/specialty/international/localized-versions
- * (last updated 2025-12-22) on 2026-09-06.
+ * (last updated 2026-09-21) on 2026-10-03.
  */
 function checkHreflangValid(project, reporter, pages) {
   const withAlts = pages
@@ -1224,10 +1229,11 @@ function alternatesOf(head) {
   }
   return out;
 }
-// ISO 639-1/2 language, optional ISO 15924 script, optional ISO 3166-1 alpha-2
-// or UN M.49 numeric region. Deliberately no private-use (`-x-…`) branch:
+// ISO 639-1 language, optional ISO 15924 script, optional ISO 3166-1 alpha-2
+// region — the subset of BCP 47 Google supports, which excludes three-letter
+// languages and UN M.49 regions by name. No private-use (`-x-…`) branch either:
 // Google reads the registry, not an extension.
-const HREFLANG_CODE = /^(?:x-default|[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|\d{3}))?)$/i;
+const HREFLANG_CODE = /^(?:x-default|[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2})?)$/i;
 // Codes that parse as regions but are not ISO 3166-1 alpha-2. UK is the one
 // everybody writes; the country is GB.
 const BAD_REGION = /-(?:UK|EU|UN)$/i;

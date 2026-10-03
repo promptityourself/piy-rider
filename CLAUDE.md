@@ -70,7 +70,7 @@ This repo is **piy-rider**: a Claude Code plugin whose two mode commands (`/piy-
   retries for that reason.
 
   **It is not an inventory of universal rules, and absence from it means
-  nothing.** 73 of the 113 universal rules are uncited and most of them should
+  nothing.** 74 of the 113 universal rules are uncited and most of them should
   be: the `modules` domain answers to Astro's own docs, `perf` and image
   delivery to the web platform, the `og:*` tags to the Open Graph protocol, the
   JSON-LD shapes to schema.org, the scores to Lighthouse, and a dozen rows are

@@ -273,7 +273,7 @@ function checkJsonLdProperties(perPage, reporter) {
       }
     }
     if (missingRequired.length) {
-      reporter.fix(SEC, 'jsonld:article-props', `${missingRequired.length} Article node(s) missing a required property — ${sample(missingRequired)}`,
+      reporter.fix(SEC, 'jsonld:article-props', `${missingRequired.length} Article node(s) missing author or headline — ${sample(missingRequired)}`,
         'add author and headline to the Article builder — a node with neither has nothing to attribute and nothing to show',
         { file: missingRequired[0].split(':')[0] });
     } else if (missingRecommended.length) {

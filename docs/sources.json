@@ -4,12 +4,12 @@
     "'Last updated' date printed on that page and the date we read it.",
     "",
     "`node scripts/google-sources.mjs` re-reads each page, compares the date, and fails",
-    "when Google has moved \u2014 so drift becomes a build failure instead of a slow lie.",
+    "when Google has moved — so drift becomes a build failure instead of a slow lie.",
     "tools/test.mjs asserts every id under `backs` exists in the rule catalogue, so a",
     "renamed check cannot orphan its source.",
     "",
     "WHAT THIS DOES NOT SAY. It is not an inventory of every universal rule, and a rule",
-    "absent from it is not thereby house style \u2014 73 of the 113 universal rules are not",
+    "absent from it is not thereby house style — 74 of the 113 universal rules are not",
     "cited here and most of them should not be. Their authority is somewhere else and",
     "that is not a weakness: the `modules` domain answers to Astro's own docs, `perf`",
     "and image delivery to the web platform, the `og:*` tags to the Open Graph protocol,",
@@ -20,7 +20,7 @@
     "What it DOES say: where this tool encodes a rule *because Google Search behaves that",
     "way*, the page and the date are written down, and a machine re-reads them."
   ],
-  "read": "2026-09-06",
+  "read": "2026-10-03",
   "feed": "https://developers.google.com/search/updates/search_docs_updates.rss",
   "sources": [
     {
@@ -80,7 +80,7 @@
     {
       "slug": "page-experience",
       "url": "https://developers.google.com/search/docs/appearance/page-experience",
-      "updated": "2025-12-10",
+      "updated": "2026-09-22",
       "backs": [
         "seo/viewport",
         "lighthouse/cls",
@@ -174,11 +174,10 @@
     {
       "slug": "localized-versions",
       "url": "https://developers.google.com/search/docs/specialty/international/localized-versions",
-      "updated": "2025-12-22",
+      "updated": "2026-09-21",
       "backs": [
         "seo/hreflang",
-        "seo/hreflang-valid",
-        "seo/html-lang"
+        "seo/hreflang-valid"
       ]
     },
     {
@@ -194,7 +193,7 @@
     {
       "slug": "article",
       "url": "https://developers.google.com/search/docs/appearance/structured-data/article",
-      "updated": "2025-12-10",
+      "updated": "2026-09-08",
       "backs": [
         "data/jsonld-article-props",
         "data/jsonld-author",
@@ -205,7 +204,7 @@
     {
       "slug": "breadcrumb",
       "url": "https://developers.google.com/search/docs/appearance/structured-data/breadcrumb",
-      "updated": "2025-12-10",
+      "updated": "2026-09-08",
       "backs": [
         "data/jsonld-breadcrumb",
         "data/jsonld-breadcrumb-shape"

@@ -81,7 +81,7 @@ const RULES = [
   ['seo/viewport', 'seo', 'viewport', 'Without a viewport meta a phone lays the page out at desktop width and scales it down — the page-experience signal every mobile result is judged on.'],
   ['seo/robots-meta', 'seo', 'robots:meta', 'A misspelled robots directive is silently ignored, and a noindex on a URL robots.txt disallows is never read at all.'],
   ['seo/links-anchor-text', 'seo', 'links:anchor-text', 'Generic link text tells a crawler and a screen reader nothing about the destination. Advisory: a card whose whole surface is the link legitimately reads "Read more".'],
-  ['seo/html-lang', 'seo', 'html:lang', 'Without lang on <html> a screen reader guesses the pronunciation and a search engine guesses the audience — WCAG 3.1.1, and the prerequisite hreflang assumes.'],
+  ['seo/html-lang', 'seo', 'html:lang', 'Without lang on <html> a screen reader guesses the pronunciation — WCAG 3.1.1. Google detects language by itself and ignores it; this is accessibility, and the prerequisite hreflang assumes.'],
   ['seo/canonical-value', 'seo', 'canonical:value', 'Two canonicals make Google discard both, and a relative one resolves against whatever URL served the page — the duplicate a canonical exists to collapse.'],
   ['seo/links-internal', 'seo', 'links:internal', 'A link to a page this build never produced 404s for every visitor who clicks it, on markup no other check can fault.'],
   ['seo/links-orphan', 'seo', 'links:orphan', 'A published page nothing links to is reachable only by luck. Advisory: a form thank-you page is correctly linked from nowhere.'],

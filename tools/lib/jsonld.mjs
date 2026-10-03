@@ -188,8 +188,8 @@ export function isIsoDate(v) {
 /**
  * Author problems on one Article-family node.
  *
- * `author` is the property Google documents as required for Article, and it must
- * name a Person or an Organization — `"author": "Jane Doe"` is the common
+ * Google lists `author` as recommended (Article has no required properties),
+ * and where it is present it must name a Person or an Organization — `"author": "Jane Doe"` is the common
  * shorthand and it is not usable, because a bare string cannot carry the @type
  * that disambiguates a person from a publisher.
  * https://developers.google.com/search/docs/appearance/structured-data/article
@@ -274,7 +274,9 @@ export function urlProblems(node) {
 /**
  * The properties Google documents for the Article family.
  *
- * `author` is required; the rest are recommended and each one visibly changes
+ * Google requires none of them ("There are no required properties", read
+ * 2026-10-03). `author` and `headline` are the floor THIS TOOL holds an Article
+ * to — `required` below means ours, not Google's; the rest each visibly change
  * the result — no `image` is no thumbnail, no `datePublished` is no date. They
  * are reported together because the fix is the same edit to the same builder,
  * and separated in the message so it is clear which half is which.

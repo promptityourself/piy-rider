@@ -575,9 +575,11 @@ the existence proof of the baseline — before a line of the checks had shipped.
 argument for all seven.
 
 - **`<html lang>` — the one head attribute nothing here had ever read.** A screen reader
-  takes its pronunciation from it and a search engine takes the page's audience; without
-  one both guess. WCAG 3.1.1 is a conformance failure rather than a preference, which is
-  why it is required on anyone's site. It is also what `hreflang` quietly assumes:
+  takes its pronunciation from it, and without one it guesses. WCAG 3.1.1 is a
+  conformance failure rather than a preference, which is why it is required on anyone's
+  site. **It is not a ranking signal for Google**, which says so outright: "Google doesn't
+  use hreflang or the HTML lang attribute to detect the language of a page; instead, we use
+  algorithms." So this rule answers to WCAG, not to Search Central. It is also what `hreflang` quietly assumes:
   alternates that all declare the same language say nothing. Loose BCP 47 — this is here to
   catch `lang=""` and `lang="english"`, not to referee the registry. → `seo: html:lang`
 - **One canonical, absolute, and one `<title>`.** Two canonicals is the failure that reads
@@ -659,8 +661,11 @@ argument for all seven.
   practice; declaring usable ones is another, and Google ignores a cluster that
   fails any of four rules. Alternate URLs must be fully-qualified — a real site in
   the sweep declares `../fr/` on 23 pages. The language tag must be one Google
-  parses: ISO 639-1, optionally a script, optionally an ISO 3166-1 alpha-2 or UN
-  M.49 numeric region. `en-UK` is the classic error, since the country is GB, and
+  parses: ISO 639-1, optionally a script, optionally an ISO 3166-1 alpha-2 region,
+  and nothing wider. That is narrower than BCP 47 on purpose — Google names
+  `es-419` as unsupported, so a UN M.49 region or a three-letter language is a
+  finding here although a validator would accept it. Case is not: Google reads
+  the value case-insensitively. `en-UK` is the classic error, since the country is GB, and
   another site ships `en-AE-x-dubai`, a private-use tag Google does not read.
   Each version must list itself. And the links must be reciprocal: "if page X
   links to page Y, page Y must link back to page X." Reciprocity is checked only
@@ -1255,10 +1260,13 @@ by **pattern**, so single-locale and per-locale naming both pass.*
   relative and whose `datePublished` is `toLocaleDateString()` output declares
   itself correctly and earns nothing. Google reads the type, finds the properties
   unusable, and drops the rich result — no error in the page, none in Search
-  Console, none in an audit that only counted types. `author` and `headline` are
-  the required half; `image` and `datePublished` are recommended, and each one
-  visibly changes the result (no image is no thumbnail, no date is no date), so
-  their absence is a suggestion rather than a finding.
+  Console, none in an audit that only counted types. Google marks none of them
+  required — "There are no required properties; instead, add the properties
+  that apply to your content" — so the split below is this tool's, not
+  Google's. `author` and `headline` are the floor it holds a post to, because an
+  Article with neither has nothing to attribute and nothing to show; `image` and
+  `datePublished` visibly change the result (no image is no thumbnail, no date
+  is no date), so their absence is a suggestion rather than a finding.
   → `data: jsonld:article-props`
   **No headline length is asserted.** Google removed the 110-character limit on
   2023-01-03 and now says only that long titles may be truncated on some devices.
