@@ -388,7 +388,7 @@ A dev tool — no deploy, no live UI. It ships as a **Claude Code plugin**, and 
 is also the marketplace that serves it:
 
 ```
-/plugin marketplace add matewishkey/mwk-rider
+/plugin marketplace add promptityourself/piy-rider
 /plugin install mwk-rider@mwk-rider
 ```
 

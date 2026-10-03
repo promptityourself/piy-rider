@@ -90,7 +90,7 @@ If they want something out, take it out and show them again.
 ## 5. File it
 
 ```bash
-gh issue create -R matewishkey/mwk-rider -t "<title>" -b "<body>"
+gh issue create -R promptityourself/piy-rider -t "<title>" -b "<body>"
 ```
 
 Title it as the failure mode plus the rule id — `false positive: seo/headings-order
@@ -98,7 +98,7 @@ fires on …` — so the queue reads at a glance. Give them the link it prints.
 
 **If `gh` isn't set up**, don't make that their problem: save the report next to
 their work, tell them the path, and give them
-<https://github.com/matewishkey/mwk-rider/issues/new/choose> for when they are.
+<https://github.com/promptityourself/piy-rider/issues/new/choose> for when they are.
 
 ## 6. Then unblock them
 

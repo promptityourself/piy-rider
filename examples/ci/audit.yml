@@ -35,7 +35,7 @@ jobs:
         run: npm run build
 
       - name: Fetch the auditor
-        run: git clone --depth 1 https://github.com/matewishkey/mwk-rider.git "$RUNNER_TEMP/mwk-rider"
+        run: git clone --depth 1 https://github.com/promptityourself/piy-rider.git "$RUNNER_TEMP/mwk-rider"
 
       # Universal Astro/SEO/perf practice only. Findings fail the job (exit 1).
       # Add --strict to also require this project's full opinionated baseline.

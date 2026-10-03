@@ -115,7 +115,7 @@ This repo is **mwk-rider**: a Claude Code plugin whose two mode commands (`/mwk-
 It is a plugin, and this repo is its marketplace:
 
 ```
-/plugin marketplace add matewishkey/mwk-rider
+/plugin marketplace add promptityourself/piy-rider
 /plugin install mwk-rider@mwk-rider
 ```
 

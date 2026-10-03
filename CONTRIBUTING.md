@@ -10,7 +10,7 @@ By submitting a pull request you agree that your contribution is licensed under 
 
 The two worth reporting are the two this tool is designed against: a check that **flagged code that is correct**, and one that **stayed quiet on code that is not**. Also worth filing: a crash, a wrong exit code, a rule id missing from `--rules`, or docs describing behaviour the tool doesn't have. A finding you disagree with is *not* a bug — house-style checks already report as `💡` and never fail a run.
 
-If you're running rider as a plugin, **`/mwk-rider:bug`** writes the report from what actually happened, redacts what shouldn't travel, shows it to you, and files it once you say yes. Otherwise: [open an issue](https://github.com/matewishkey/mwk-rider/issues/new/choose).
+If you're running rider as a plugin, **`/mwk-rider:bug`** writes the report from what actually happened, redacts what shouldn't travel, shows it to you, and files it once you say yes. Otherwise: [open an issue](https://github.com/promptityourself/piy-rider/issues/new/choose).
 
 Either way the useful part is the same — the **rule id**, and the **smallest snippet that reproduces it**. That snippet is what the regression test gets built from, so a report that has it is most of the fix.
 
@@ -21,7 +21,7 @@ Security issues go through [private reporting](SECURITY.md), never a public issu
 There is nothing to install. You need Node 22 or newer, and that's it — no `npm install`, no root `package.json`, no API keys.
 
 ```bash
-git clone https://github.com/matewishkey/mwk-rider.git
+git clone https://github.com/promptityourself/piy-rider.git
 cd mwk-rider
 node tools/test.mjs          # the gate — must pass
 ```

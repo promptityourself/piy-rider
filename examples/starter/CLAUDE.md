@@ -107,7 +107,7 @@ Run the auditor — `/mwk-rider:audit` in Claude Code, or from a checkout of the
 tool:
 
 ```bash
-git clone --depth 1 https://github.com/matewishkey/mwk-rider.git /tmp/mwk-rider
+git clone --depth 1 https://github.com/promptityourself/piy-rider.git /tmp/mwk-rider
 node /tmp/mwk-rider/tools/audit.mjs --strict
 ```
 

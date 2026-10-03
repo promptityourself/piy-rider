@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Please **don't** open a public issue for a security problem. Use GitHub's [private vulnerability reporting](https://github.com/matewishkey/mwk-rider/security/advisories/new) on this repository, which goes only to the maintainers.
+Please **don't** open a public issue for a security problem. Use GitHub's [private vulnerability reporting](https://github.com/promptityourself/piy-rider/security/advisories/new) on this repository, which goes only to the maintainers.
 
 Expect an acknowledgement within a few days. This is a small project maintained part-time — please be patient, and please don't publish details until there's a fix or we've agreed there's no issue.
 

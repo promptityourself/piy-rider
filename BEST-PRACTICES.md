@@ -1746,7 +1746,7 @@ The queue. Each becomes a real check when a reporter hits it or we decide it's
 worth it — following *How we add a practice* above. Listed so we don't lose them.
 
 **The live queue is the issue tracker**, not this list:
-[matewishkey/mwk-rider issues](https://github.com/matewishkey/mwk-rider/issues). Seven
+[promptityourself/piy-rider issues](https://github.com/promptityourself/piy-rider/issues). Seven
 came in from audited sites and were closed on 2026-08-03 by shipped checks —
 eager third-party embeds, `dist:size` flagging srcset rungs, CSS
 `background-image` (no srcset, no lazy loading), the two remaining font-hygiene

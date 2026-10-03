@@ -19,7 +19,7 @@ audit complete — 4 findings to address (exit 1).
 No install, no dependencies, no API key. From the root of any Astro project:
 
 ```bash
-git clone --depth 1 https://github.com/matewishkey/mwk-rider.git /tmp/mwk-rider
+git clone --depth 1 https://github.com/promptityourself/piy-rider.git /tmp/mwk-rider
 npm run build          # optional, but the image + perf checks read dist/
 node /tmp/mwk-rider/tools/audit.mjs
 ```
@@ -154,7 +154,7 @@ fixer that can leave a project worse than it found it is not worth having.
 In [Claude Code](https://claude.com/claude-code):
 
 ```
-/plugin marketplace add matewishkey/mwk-rider
+/plugin marketplace add promptityourself/piy-rider
 /plugin install mwk-rider@mwk-rider
 ```
 
