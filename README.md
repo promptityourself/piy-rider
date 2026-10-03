@@ -160,6 +160,8 @@ In [Claude Code](https://claude.com/claude-code):
 
 Update later with `/plugin update piy-rider`. It installs nothing into any project and never touches a project's `CLAUDE.md`.
 
+**Had it as `mwk-rider`?** 2.0.0 renamed the plugin, so the commands are `/piy-rider:…` now and an old install does not move on its own. Remove the old one (`/plugin uninstall mwk-rider@mwk-rider`, then `/plugin marketplace remove mwk-rider`) and run the two lines above.
+
 Requires **Node 22+**. No `npm install` — the tool uses Node built-ins only, and the plugin carries them with it.
 
 ## Use
