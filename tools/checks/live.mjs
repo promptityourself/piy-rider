@@ -15,7 +15,7 @@ import { declaresImmutableAssets } from '../lib/headers.mjs';
 import { outOfFlowSelectors, inlineStyles, stylesheetHrefs, isOutOfFlow } from '../lib/css-flow.mjs';
 import {
   BEACON_SIGNALS, RUM_SIGNALS, ZARAZ_SIGNALS, GA_THIRD_PARTY_SIGNALS,
-  matchSignals, hasSignal,
+  matchSignals, hasSignal, beaconScriptCount,
 } from '../lib/analytics-signals.mjs';
 import { truncate } from '../lib/text.mjs';
 
@@ -113,10 +113,13 @@ function auditAnalytics(home, reporter) {
   const beacon = matchSignals(html, [...BEACON_SIGNALS, ...RUM_SIGNALS]);
   const zaraz = hasSignal(html, ZARAZ_SIGNALS);
   const thirdPartyGa = hasSignal(html, GA_THIRD_PARTY_SIGNALS);
+  const beaconTags = beaconScriptCount(html);
 
   // provider — what is delivering analytics here.
   if (beacon.length && zaraz) {
     reporter.pass('analytics', 'provider', `both Cloudflare Web Analytics (${beacon.join(', ')}) and Zaraz are on the page — deliberate if Zaraz carries other tools, duplicated measurement if not`);
+  } else if (beaconTags > 1) {
+    reporter.suggest('analytics', 'provider', `${beaconTags} Cloudflare Web Analytics beacons on the page — usually the layout's own snippet plus the one automatic setup injects at the edge, so every visit is counted ${beaconTags} times`, "keep one install: turn automatic setup off in the dashboard, or unset the token in the layout so only the edge injects it");
   } else if (beacon.length) {
     reporter.pass('analytics', 'provider', `Cloudflare Web Analytics (${beacon.join(', ')}) — cookieless, so no consent banner is required`);
   } else if (zaraz) {

@@ -14,6 +14,7 @@ import { tmpdir } from 'node:os';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, rmSync, existsSync, utimesSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { imageSize } from './lib/image-size.mjs';
+import { beaconScriptCount } from './lib/analytics-signals.mjs';
 import { extractSpec, readBrief, readContentFile, declaredTokens, provenance, assignSets } from './lib/brief.mjs';
 import { deflateSync, crc32 } from 'node:zlib';
 import { randomBytes } from 'node:crypto';
@@ -2436,6 +2437,19 @@ const commentOnly = mkBuilt({}, { src: {
 const commented = row(commentOnly, 'analytics', 'analytics/provider');
 check('a beacon named only in a comment is not wiring',
   commented?.outcome === 'suggest' && !/wired/.test(commented?.message ?? ''), JSON.stringify(commented));
+
+// #41: the layout's manual snippet plus the beacon automatic setup injects at
+// the edge — on a Worker-served site too — is two beacons and every visit
+// counted twice. The edge's tag has a versioned path and a JSON attribute full
+// of quotes; both are copied from a real served page (token elided).
+const EDGE_BEACON = `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" data-cf-beacon='{"version":"2024.11.0","token":"t","r":1,"spa":2}' crossorigin="anonymous"></script>`;
+const OWN_BEACON = `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "t"}'></script>`;
+check('two Web Analytics beacons on one page are counted as two (manual + edge-injected)',
+  beaconScriptCount(`<html><head>${OWN_BEACON}</head><body>${EDGE_BEACON}</body></html>`) === 2);
+check('  …one edge-injected beacon alone is one, versioned path and all',
+  beaconScriptCount(`<html><body>${EDGE_BEACON}</body></html>`) === 1);
+check('  …and the beacon URL in prose or a non-script tag is none',
+  beaconScriptCount('<p>add static.cloudflareinsights.com/beacon.min.js</p><link rel="preconnect" href="https://static.cloudflareinsights.com/beacon.min.js">') === 0);
 
 // --- the seven blind spots, and the guard on each ----------------------------
 // Five of these would have fired on our own compliant examples written the

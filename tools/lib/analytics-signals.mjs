@@ -80,3 +80,16 @@ export function matchSignals(text, table) {
 export function hasSignal(text, table) {
   return table.some(([re]) => re.test(text));
 }
+
+/**
+ * How many Web Analytics beacon <script> tags a page loads. Two is the shape
+ * #41 describes: the layout's manual snippet plus Cloudflare's automatic setup
+ * injecting its own at the edge — every visit counted twice. The edge-injected
+ * tag carries a versioned path (`beacon.min.js/v31edd…`, seen 2026-10-03), so
+ * the path is matched as a prefix. The attribute scan is the unambiguous form
+ * (see lib/html.mjs): a quote is never matched by the bare-character branch.
+ */
+export function beaconScriptCount(html) {
+  const tags = String(html ?? '').match(/<script\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi) ?? [];
+  return tags.filter((t) => /static\.cloudflareinsights\.com\/beacon(?:\.min)?\.js/i.test(t)).length;
+}

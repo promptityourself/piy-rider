@@ -121,8 +121,8 @@ function checkProvider(srcFiles, distPages, reporter) {
       reporter.suggest(
         SEC,
         'provider',
-        `the Cloudflare Web Analytics beacon is wired in ${wiredInSrc[0].path} but reaches none of the ${distPages.length} built page(s) — it sits behind a falsy token, so no data flows`,
-        'set the site token (Cloudflare dashboard → Web Analytics → your site) so the beacon renders. Until then this site measures nothing',
+        `the Cloudflare Web Analytics beacon is wired in ${wiredInSrc[0].path} but reaches none of the ${distPages.length} built page(s) — it sits behind a falsy token. That measures nothing unless Cloudflare's automatic setup injects the beacon at the edge (it does, Worker-served sites included), which is invisible here; --url settles it`,
+        'use one install: leave the token unset if automatic setup is on, or set it (Cloudflare dashboard → Web Analytics → your site) and turn automatic setup off — both at once double-counts',
         { file: wiredInSrc[0].path },
       );
       return;

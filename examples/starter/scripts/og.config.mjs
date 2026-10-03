@@ -53,10 +53,12 @@ export const config = {
     // made-up token would look configured while measuring nothing. The audit
     // reports it as "wired but the token is unset", which is the truth.
     //
-    // NB Cloudflare's automatic beacon injection only rewrites proxied STATIC
-    // responses. A site served by a Worker — which this is — is not rewritten,
-    // so the <script> in the layout is how the beacon gets there. Auto-install
-    // will silently do nothing and still show the site as set up.
+    // Pick ONE install. Automatic setup (the dashboard default) injects the
+    // beacon at the edge, and it does rewrite a Worker-served site like this
+    // one — measured 2026-10-03 on a Workers + Static Assets deploy, static and
+    // on-demand routes and the 404 alike (#41). With it on, leave this null.
+    // Set a token only with automatic setup OFF: both at once loads two
+    // beacons and counts every visit twice.
     cloudflareAnalyticsToken: null,
   },
 };

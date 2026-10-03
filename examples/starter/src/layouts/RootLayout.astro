@@ -24,9 +24,10 @@ const year = new Date().getFullYear();
     <SEO entry={entry} title={title} description={description} />
 
     <!-- Cloudflare Web Analytics: free, cookieless, no consent banner needed.
-         Renders only once a token is set — see scripts/og.config.mjs. This tag
-         is how the beacon reaches a Worker-served site; Cloudflare's automatic
-         injection does not rewrite Worker responses.
+         Renders only once a token is set — see scripts/og.config.mjs. This is
+         the MANUAL install. Cloudflare's automatic setup injects the same beacon
+         at the edge, Worker-served sites included, so use one or the other:
+         both loads two beacons.
 
          No `integrity` hash on purpose: beacon.min.js is a rolling build with no
          published digest, so pinning one would break the beacon on Cloudflare's

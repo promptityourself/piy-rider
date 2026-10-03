@@ -1398,15 +1398,19 @@ unmeasured site into a build failure without a single test going red.
   says so in those words. `examples/_fixture-i18n` is the standing example: it is
   localhost-only, its token is genuinely `null`, and it carries this `💡`
   permanently rather than being given a fake token to look clean.
-- **Auto-install does not reach a Worker.** Cloudflare's automatic injection
-  rewrites HTML for proxied *static* responses. A site served by a Worker — which
-  is what a Cloudflare Pages/Workers deploy of an Astro build is — is not
-  rewritten, so auto-install silently does nothing and the dashboard still shows
-  the site as set up. **On a Workers-served site the `<script>` in the root
-  layout is mandatory.** This is the single most expensive thing to get wrong
-  here, because every surface reports success: the dashboard says installed, the
-  build says fine, and no data arrives. Confirm it the only way that means
-  anything — `--url` against the deployed site, which reads the served HTML.
+- **One install, not two — and automatic setup does reach a Worker.** This file
+  used to say the opposite, and the starter followed it. Cloudflare's automatic
+  setup rewrites Worker-served HTML too: measured 2026-10-03 on a Workers +
+  Static Assets deploy, the beacon is on static pages, on-demand Worker routes
+  and the 404 (#41). The earlier conclusion came from a probe without a browser
+  `Accept: text/html`, and the edge injects only into a response it believes is
+  going to a browser — without that header the count is zero, which reads
+  exactly like "not injected". So the choice is automatic setup with the
+  layout's token left unset, or the `<script>` with automatic setup turned off.
+  Both at once loads two beacons and counts every visit twice. Confirm it the
+  only way that means anything — `--url` against the deployed site, which sends
+  a browser navigation signature and reads the served HTML; it reports a
+  duplicated beacon.
   → `analytics: provider` (live)
 
 ### The alternative, fully supported: Cloudflare Zaraz
