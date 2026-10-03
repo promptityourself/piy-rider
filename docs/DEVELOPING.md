@@ -250,7 +250,7 @@ the alternative is a starter that quietly stops complying with the tool that shi
   outside one manual check (#30).
 
   `node scripts/test-site.mjs deploy` publishes `examples/starter` to
-  **https://mwk-rider-test1.matewishkey.com/** — copied verbatim and edited the
+  **https://piy-rider-test1.promptityourself.com/** — copied verbatim and edited the
   four files create mode edits, so the thing measured IS the reference. Then
   `node scripts/test-site.mjs audit --strict` audits it with every domain live.
   Cloudflare free tier; ours for testing, and nothing in the plugin asks a user
@@ -370,7 +370,7 @@ seven public builds kept in scratch.
 - [ ] If `tools/checks/*.mjs` changed: also run it against a real site — drift there is
       expected and informational, and it's how you confirm the check fires in the wild.
 - [ ] If `skills/**`, `commands/**` or `.claude-plugin/**` changed: load the working tree
-      as a plugin (`claude --plugin-dir ~/projects/mwk-rider`) and run the command you
+      as a plugin (`claude --plugin-dir ~/projects/piy-rider`) and run the command you
       touched end to end. `${CLAUDE_PLUGIN_ROOT}` is expanded in the markdown before the
       model reads it, and is **not** set in the shell — so a path that only *looks* right
       fails at the first Bash call, and nothing but running it will tell you.
@@ -389,7 +389,7 @@ is also the marketplace that serves it:
 
 ```
 /plugin marketplace add promptityourself/piy-rider
-/plugin install mwk-rider@mwk-rider
+/plugin install piy-rider@piy-rider
 ```
 
 `.claude-plugin/plugin.json` is the manifest; `.claude-plugin/marketplace.json` is the
@@ -397,11 +397,11 @@ one-entry catalogue. `commands/`, `skills/` and everything they reach are discov
 convention — nothing is registered by hand, and there is no installer to keep in step.
 
 **Developing is not the same as consuming.** An installed plugin is a version-pinned copy
-in `~/.claude/plugins/cache/mwk-rider/mwk-rider/<version>/`, so a `git pull` here does not
+in `~/.claude/plugins/cache/piy-rider/piy-rider/<version>/`, so a `git pull` here does not
 change it. Work against the tree instead:
 
 ```bash
-claude --plugin-dir ~/projects/mwk-rider
+claude --plugin-dir ~/projects/piy-rider
 ```
 
 **But `--plugin-dir` reads the working tree, so it can never surface an install or
@@ -417,8 +417,8 @@ and the change is invisible to anyone who already has it installed. Then:
 
 ```bash
 git push origin main
-claude plugin marketplace update mwk-rider   # refresh the catalogue from source
-claude plugin update mwk-rider@mwk-rider     # move the pinned install
+claude plugin marketplace update piy-rider   # refresh the catalogue from source
+claude plugin update piy-rider@piy-rider     # move the pinned install
 ```
 
 then **restart Claude Code** — the CLI says a restart is required and it means it.
@@ -441,7 +441,7 @@ Five things that look like bugs and are not:
   confirm by running the apply twice: the second run must be a no-op.
 - `claude plugin details` resolves from the refreshed *source* while `claude plugin list`
   reports the *installed pin*, so they disagree in the window between the two commands.
-- `claude plugin tag` cuts a `mwk-rider--v<version>` git tag and validates that
+- `claude plugin tag` cuts a `piy-rider--v<version>` git tag and validates that
   `plugin.json` and the `marketplace.json` entry agree — run it if the two ever drift.
 
 Pure Node ESM on system Node 22+, no dependencies, no `package.json` at the repo root.

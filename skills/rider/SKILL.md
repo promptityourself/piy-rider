@@ -11,4 +11,4 @@ description: Create a new Astro site from a compliant starter, or audit an exist
 
 If it is genuinely ambiguous, ask — one question, then commit to a mode.
 
-This router exists for the model-invoked path, where the mode has to be inferred. A user who types `/mwk-rider:create` or `/mwk-rider:audit` has already chosen, and those commands load the same two files directly — one set of instructions per mode, never a second copy.
+This router exists for the model-invoked path, where the mode has to be inferred. A user who types `/piy-rider:create` or `/piy-rider:audit` has already chosen, and those commands load the same two files directly — one set of instructions per mode, never a second copy.

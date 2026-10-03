@@ -1,4 +1,4 @@
-# Contributing to Mate Wish Key Rider
+# Contributing to Prompt It Yourself Rider
 
 Thanks for looking. This is a small, deliberately dependency-free tool — the bar for changes is "does it make the tool's answers more trustworthy?"
 
@@ -10,7 +10,7 @@ By submitting a pull request you agree that your contribution is licensed under 
 
 The two worth reporting are the two this tool is designed against: a check that **flagged code that is correct**, and one that **stayed quiet on code that is not**. Also worth filing: a crash, a wrong exit code, a rule id missing from `--rules`, or docs describing behaviour the tool doesn't have. A finding you disagree with is *not* a bug — house-style checks already report as `💡` and never fail a run.
 
-If you're running rider as a plugin, **`/mwk-rider:bug`** writes the report from what actually happened, redacts what shouldn't travel, shows it to you, and files it once you say yes. Otherwise: [open an issue](https://github.com/promptityourself/piy-rider/issues/new/choose).
+If you're running rider as a plugin, **`/piy-rider:bug`** writes the report from what actually happened, redacts what shouldn't travel, shows it to you, and files it once you say yes. Otherwise: [open an issue](https://github.com/promptityourself/piy-rider/issues/new/choose).
 
 Either way the useful part is the same — the **rule id**, and the **smallest snippet that reproduces it**. That snippet is what the regression test gets built from, so a report that has it is most of the fix.
 
@@ -22,7 +22,7 @@ There is nothing to install. You need Node 22 or newer, and that's it — no `np
 
 ```bash
 git clone https://github.com/promptityourself/piy-rider.git
-cd mwk-rider
+cd piy-rider
 node tools/test.mjs          # the gate — must pass
 ```
 
@@ -44,7 +44,7 @@ and neither is needed to run the tool or the gate.
 
 **1. A new check needs both halves of a test.** `tools/test.mjs` asserts that checks stay quiet on the two compliant example sites — `examples/_fixture-i18n/` and `examples/starter/` — *and* that each one actually fires on a purpose-built known-bad project. A compliant site alone proves nothing: a check that is broken and never fires passes it just as happily as one that works.
 
-And if your change moves the baseline, **both example sites are upgraded in the same commit**. `examples/starter/` is what `/mwk-rider:create` copies to create a site, so a starter that has fallen behind the checks ships non-compliant sites to people who trusted it.
+And if your change moves the baseline, **both example sites are upgraded in the same commit**. `examples/starter/` is what `/piy-rider:create` copies to create a site, so a starter that has fallen behind the checks ships non-compliant sites to people who trusted it.
 
 **2. A new check must be classified in `tools/lib/policy.mjs`.** Is it universal practice, or this project's house style? Anything unclassified defaults to universal, which means it becomes a required finding that fails the build of every stranger who doesn't share the opinion. Ask: *could a well-built Astro site reasonably do this differently?* If yes, it's house style — it reports as `💡 [baseline]` and only bites under `--strict`.
 

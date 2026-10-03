@@ -33,8 +33,8 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 
-const HOST = 'mwk-rider-test1.matewishkey.com';
-const WORKER = 'mwk-rider-test1';
+const HOST = 'piy-rider-test1.promptityourself.com';
+const WORKER = 'piy-rider-test1';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const STARTER = join(root, 'examples', 'starter');
 

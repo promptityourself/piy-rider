@@ -1,6 +1,6 @@
 # rider tools
 
-The engine behind `/mwk-rider:audit`. Detects an Astro project, runs domain checks, reports `✅ / 🔧 / 🛑 / 💡 / ⏭`, exits non-zero on findings. Zero dependencies — Node 22 built-ins only.
+The engine behind `/piy-rider:audit`. Detects an Astro project, runs domain checks, reports `✅ / 🔧 / 🛑 / 💡 / ⏭`, exits non-zero on findings. Zero dependencies — Node 22 built-ins only.
 
 **The check set moves faster than this page.** `--rules --json` is the authoritative
 list of what the tool checks and which of it binds you — it is generated from the code,
@@ -10,7 +10,7 @@ so it cannot drift. The table below is orientation, not an inventory.
 
 ```bash
 cd ~/projects/<some-astro-site>
-rider=~/projects/mwk-rider/tools/audit.mjs   # the path is rider's, the cwd is the site's
+rider=~/projects/piy-rider/tools/audit.mjs   # the path is rider's, the cwd is the site's
 
 node $rider            # every offline domain
 node $rider -s seo -s images   # subset

@@ -1,6 +1,6 @@
-# Mate Wish Key Rider (`mwk-rider`) — dev notes for this repo
+# Prompt It Yourself Rider (`piy-rider`) — dev notes for this repo
 
-This repo is **mwk-rider**: a Claude Code plugin whose two mode commands (`/mwk-rider:audit`, `/mwk-rider:create`) check an Astro site against baseline best practices, or start one that already complies — plus `/mwk-rider:bug`, which files a rider bug when a check gets it wrong. It is *not* a framework — nothing is installed into an audited site, nothing auto-loads, and their `CLAUDE.md` is never touched. You run it when you want a compliance check; it prints findings, and `--fix` applies the ones it can prove.
+This repo is **piy-rider**: a Claude Code plugin whose two mode commands (`/piy-rider:audit`, `/piy-rider:create`) check an Astro site against baseline best practices, or start one that already complies — plus `/piy-rider:bug`, which files a rider bug when a check gets it wrong. It is *not* a framework — nothing is installed into an audited site, nothing auto-loads, and their `CLAUDE.md` is never touched. You run it when you want a compliance check; it prints findings, and `--fix` applies the ones it can prove.
 
 
 ## What it is
@@ -89,7 +89,7 @@ This repo is **mwk-rider**: a Claude Code plugin whose two mode commands (`/mwk-
   the comment worth anything: a real site, that date, what it actually answered. Never
   relabel a captured response with a host that did not serve it; write "a real site"
   instead, which is true whatever the branding does next.
-- **The `lighthouse` domain can only be exercised against a public URL** — PSI fetches from Google's side, so `127.0.0.1` always answers 400 and CI has no key. `node scripts/test-site.mjs deploy` publishes the starter to `mwk-rider-test1.matewishkey.com` and `… audit --strict` audits it live; redeploy after changing the starter. Ours for testing only — the plugin never asks a user for one. `docs/DEVELOPING.md` has the why.
+- **The `lighthouse` domain can only be exercised against a public URL** — PSI fetches from Google's side, so `127.0.0.1` always answers 400 and CI has no key. `node scripts/test-site.mjs deploy` publishes the starter to `piy-rider-test1.promptityourself.com` and `… audit --strict` audits it live; redeploy after changing the starter. Ours for testing only — the plugin never asks a user for one. `docs/DEVELOPING.md` has the why.
 - **Two example sites, upgraded together.** `examples/_fixture-i18n/` is the multi-locale exerciser (i18n, search, preview routes); `examples/starter/` is the single-locale reference and what create mode copies. Both must be `0 🔧 / 0 🛑` in default **and** `--strict` — and now also LIVE: CI runs the matrix offline in both modes and then `node ../../tools/verify-example.mjs --strict` inside each, so the `live`/`lighthouse`/`browser` domains are exercised against them too. **Raising the baseline means upgrading both in the same commit** — a floor moved in one makes the other's clean run a lie. Testing/deploy discipline lives in `docs/DEVELOPING.md`.
 - **A brief answers create mode's questions; it does not get to answer them
   loosely.** Palette and type are an *edit list* — every value names a custom
@@ -116,7 +116,7 @@ It is a plugin, and this repo is its marketplace:
 
 ```
 /plugin marketplace add promptityourself/piy-rider
-/plugin install mwk-rider@mwk-rider
+/plugin install piy-rider@piy-rider
 ```
 
 **The plugin/marketplace format is a settled decision (2026-09-03), and it is load-bearing
@@ -130,5 +130,5 @@ that is data. The release ceremony is the real cost, and the fix for that is few
 releases — not a different format. The standalone CLI already exists and CI uses it; the
 two are not alternatives.
 
-`.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json`; `commands/` and `skills/` are found by convention. **Dogfood through the marketplace, not `--plugin-dir`** — `--plugin-dir` loads the working tree and so cannot surface an install or packaging bug; push, then `claude plugin marketplace update mwk-rider && claude plugin update mwk-rider@mwk-rider`, then restart (`docs/DEVELOPING.md` § Releasing). `--plugin-dir` is for a fast inner loop only. **`${CLAUDE_PLUGIN_ROOT}` is expanded in the markdown before the model sees it and is NOT set in the shell** — verified, and the reason a path can look right and still fail at the first Bash call. Working on the plugin means `claude --plugin-dir ~/projects/mwk-rider`; an installed copy is version-pinned in the plugin cache and a `git pull` here does not touch it.
+`.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json`; `commands/` and `skills/` are found by convention. **Dogfood through the marketplace, not `--plugin-dir`** — `--plugin-dir` loads the working tree and so cannot surface an install or packaging bug; push, then `claude plugin marketplace update piy-rider && claude plugin update piy-rider@piy-rider`, then restart (`docs/DEVELOPING.md` § Releasing). `--plugin-dir` is for a fast inner loop only. **`${CLAUDE_PLUGIN_ROOT}` is expanded in the markdown before the model sees it and is NOT set in the shell** — verified, and the reason a path can look right and still fail at the first Bash call. Working on the plugin means `claude --plugin-dir ~/projects/piy-rider`; an installed copy is version-pinned in the plugin cache and a `git pull` here does not touch it.
 

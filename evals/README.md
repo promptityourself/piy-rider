@@ -27,7 +27,7 @@ because it is what CI's `--self-test` path uses and because it needs no
 entitlement:
 
 ```bash
-claude plugin eval ~/projects/mwk-rider --ablation none --runs 2 --allow-tools Bash
+claude plugin eval ~/projects/piy-rider --ablation none --runs 2 --allow-tools Bash
 ```
 
 **`--self-test` is the part CI runs.** The evals need a live model, so CI can

@@ -3661,12 +3661,12 @@ console.log('the plugin wiring resolves — a broken path here is a dead command
 // The commands and the skill router reach their instructions by PATH, and a
 // path is only checked when someone runs the command. Nothing else in this file
 // would notice a renamed reference file: the audit tool would still pass every
-// assertion above while `/mwk-rider:audit` loaded nothing.
+// assertion above while `/piy-rider:audit` loaded nothing.
 const ROOT = join(here, '..');
 const manifest = JSON.parse(readFileSync(join(ROOT, '.claude-plugin', 'plugin.json'), 'utf8'));
 const market = JSON.parse(readFileSync(join(ROOT, '.claude-plugin', 'marketplace.json'), 'utf8'));
 check('plugin.json and marketplace.json parse, and agree on the plugin name',
-  manifest.name === 'mwk-rider' && market.plugins.some(p => p.name === manifest.name),
+  manifest.name === 'piy-rider' && market.plugins.some(p => p.name === manifest.name),
   `${manifest.name} vs ${market.plugins.map(p => p.name).join(', ')}`);
 
 // ${CLAUDE_PLUGIN_ROOT} is expanded before the model reads the file, so the

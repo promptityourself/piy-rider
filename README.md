@@ -1,8 +1,8 @@
-# Mate Wish Key Rider
+# Prompt It Yourself Rider
 
-<sub>`mwk-rider`</sub>
+<sub>`piy-rider`</sub>
 
-An on-demand best-practices auditor for **Astro** sites — and a compliant site to start from. A Claude Code plugin — two slash commands (`/mwk-rider:audit`, `/mwk-rider:create`) over one zero-dependency script, ten domains (seven offline + three live), plus `/mwk-rider:bug` for when it gets one wrong. No framework, no contract, nothing installed into the sites it audits — it reports, you decide.
+An on-demand best-practices auditor for **Astro** sites — and a compliant site to start from. A Claude Code plugin — two slash commands (`/piy-rider:audit`, `/piy-rider:create`) over one zero-dependency script, ten domains (seven offline + three live), plus `/piy-rider:bug` for when it gets one wrong. No framework, no contract, nothing installed into the sites it audits — it reports, you decide.
 
 ```
 💡 modules: astro:version — ^6.3.7 (baseline is ^7+) [baseline]
@@ -19,9 +19,9 @@ audit complete — 4 findings to address (exit 1).
 No install, no dependencies, no API key. From the root of any Astro project:
 
 ```bash
-git clone --depth 1 https://github.com/promptityourself/piy-rider.git /tmp/mwk-rider
+git clone --depth 1 https://github.com/promptityourself/piy-rider.git /tmp/piy-rider
 npm run build          # optional, but the image + perf checks read dist/
-node /tmp/mwk-rider/tools/audit.mjs
+node /tmp/piy-rider/tools/audit.mjs
 ```
 
 That's the whole thing. You get findings like:
@@ -45,14 +45,14 @@ The `⏭` are checks that could not run: no `--url`, no PSI key, no playwright.)
 
 ```bash
 export PAGESPEED_API_KEY=…
-node /tmp/mwk-rider/tools/audit.mjs -s lighthouse --url https://example.com
+node /tmp/piy-rider/tools/audit.mjs -s lighthouse --url https://example.com
 ```
 
 **Want to test the running site in a real browser?** Install Playwright in *your* project and the `browser` domain switches itself on:
 
 ```bash
 npm i -D playwright && npx playwright install chromium
-node /tmp/mwk-rider/tools/audit.mjs -s browser --url https://example.com
+node /tmp/piy-rider/tools/audit.mjs -s browser --url https://example.com
 ```
 
 That catches what no static check can: scripts that throw, assets that 404 only when requested, real measured layout shift, and images served at 4× the size they're displayed.
@@ -155,10 +155,10 @@ In [Claude Code](https://claude.com/claude-code):
 
 ```
 /plugin marketplace add promptityourself/piy-rider
-/plugin install mwk-rider@mwk-rider
+/plugin install piy-rider@piy-rider
 ```
 
-Update later with `/plugin update mwk-rider`. It installs nothing into any project and never touches a project's `CLAUDE.md`.
+Update later with `/plugin update piy-rider`. It installs nothing into any project and never touches a project's `CLAUDE.md`.
 
 Requires **Node 22+**. No `npm install` — the tool uses Node built-ins only, and the plugin carries them with it.
 
@@ -167,13 +167,13 @@ Requires **Node 22+**. No `npm install` — the tool uses Node built-ins only, a
 From inside any Astro project, in [Claude Code](https://claude.com/claude-code):
 
 ```
-/mwk-rider:audit                        # offline: source + dist checks
-/mwk-rider:audit https://example.com    # also check the live/served site
-/mwk-rider:create                       # scaffold a new site in an empty directory
-/mwk-rider:bug                          # rider got it wrong — file it
+/piy-rider:audit                        # offline: source + dist checks
+/piy-rider:audit https://example.com    # also check the live/served site
+/piy-rider:create                       # scaffold a new site in an empty directory
+/piy-rider:bug                          # rider got it wrong — file it
 ```
 
-`/mwk-rider:create` scaffolds. It asks three
+`/piy-rider:create` scaffolds. It asks three
 questions — site name and domain, contact email, a one-line tagline — then copies
 [`examples/starter/`](examples/starter), edits them in, builds, and runs
 the audit on what it just made.
@@ -195,11 +195,11 @@ with real `<lastmod>`. Three dashboard steps are left for you, and it says which
 Or call the script directly — it's a plain CLI, Claude Code is optional:
 
 ```bash
-node /tmp/mwk-rider/tools/audit.mjs --help
-node /tmp/mwk-rider/tools/audit.mjs                     # everything offline
-node /tmp/mwk-rider/tools/audit.mjs -s seo -s images    # scope to domains
-node /tmp/mwk-rider/tools/audit.mjs --url https://example.com  # add live + lighthouse
-node /tmp/mwk-rider/tools/audit.mjs --json              # machine-readable
+node /tmp/piy-rider/tools/audit.mjs --help
+node /tmp/piy-rider/tools/audit.mjs                     # everything offline
+node /tmp/piy-rider/tools/audit.mjs -s seo -s images    # scope to domains
+node /tmp/piy-rider/tools/audit.mjs --url https://example.com  # add live + lighthouse
+node /tmp/piy-rider/tools/audit.mjs --json              # machine-readable
 ```
 
 `--url` works from **any directory** — the offline domains need an Astro project in the cwd, but a live/lighthouse run only needs the URL.
@@ -250,7 +250,7 @@ skills/rider/
   SKILL.md                   the mode router, for when an agent invokes rider
                              itself and has to infer create vs audit
   references/AUDIT.md        how to run and report an audit — loaded by the skill
-                             and by /mwk-rider:audit, one file either way
+                             and by /piy-rider:audit, one file either way
   references/CREATE.md       the steps for create mode, same arrangement
 tools/
   audit.mjs                  entry: detect project, run domains, report
@@ -279,8 +279,8 @@ docs/DEVELOPING.md           testing discipline, design decisions, how a release
 CONTRIBUTING.md              the pre-ship checklist, short form
 SECURITY.md                  what the tool reads, what it never executes, how to report
 .github/ISSUE_TEMPLATE/      bug.yml — the web form, for reporting without the plugin
-                             config.yml — points the rest at the plugin's own /mwk-rider:bug
-                             (/mwk-rider:bug posts a free-form issue instead)
+                             config.yml — points the rest at the plugin's own /piy-rider:bug
+                             (/piy-rider:bug posts a free-form issue instead)
 .env.example                 the optional API keys
 .mcp.json                    declares context7 (the doc-lookup rule needs it);
                              the key comes from $CONTEXT7_API_KEY, never the file
@@ -301,7 +301,7 @@ One documented exception: with `--url`, the optional `browser` domain imports `p
 
 ## Licence
 
-[MIT](LICENSE) — © 2026 Mergodon Limited. **Mate Wish Key** is a brand of Mergodon Limited. Use it, fork it, sell it; just keep the notice.
+[MIT](LICENSE) — © 2026 Mergodon Limited. **Prompt It Yourself** is a brand of Mergodon Limited. Use it, fork it, sell it; just keep the notice.
 
 The auditor itself has **zero dependencies**, so nothing third-party is redistributed here. The example fixture installs its own dependencies from npm under their respective licences (predominantly MIT, with Apache-2.0, ISC, MPL-2.0 and LGPL-3.0 transitives) — those are fetched at install time, not vendored into this repo.
 

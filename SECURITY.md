@@ -1,4 +1,4 @@
-# Security — Mate Wish Key Rider
+# Security — Prompt It Yourself Rider
 
 ## Reporting a vulnerability
 

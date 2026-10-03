@@ -1,9 +1,9 @@
 {
-  "name": "mwk-rider",
+  "name": "piy-rider",
   "version": "1.18.0",
   "description": "Create a new Astro site from a compliant starter, or audit an existing one against baseline best practices \u2014 the stack, SEO, images, page speed, analytics, and the machine-readable surface.",
   "author": {
-    "name": "Mate Wish Key"
+    "name": "Prompt It Yourself"
   },
   "homepage": "https://github.com/promptityourself/piy-rider",
   "repository": "https://github.com/promptityourself/piy-rider",

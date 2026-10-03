@@ -103,12 +103,12 @@ site.
 
 ## Before you ship a change
 
-Run the auditor — `/mwk-rider:audit` in Claude Code, or from a checkout of the
+Run the auditor — `/piy-rider:audit` in Claude Code, or from a checkout of the
 tool:
 
 ```bash
-git clone --depth 1 https://github.com/promptityourself/piy-rider.git /tmp/mwk-rider
-node /tmp/mwk-rider/tools/audit.mjs --strict
+git clone --depth 1 https://github.com/promptityourself/piy-rider.git /tmp/piy-rider
+node /tmp/piy-rider/tools/audit.mjs --strict
 ```
 
 **`0 🔧 / 0 🛑` is the acceptance test.** The `💡` are to be read, not counted —
@@ -124,4 +124,4 @@ yet rather than things that are wrong:
   reached by the form's redirect, not by a link.
 
 Read any others on their merits. What each rule is and why lives in the tool:
-`node /tmp/mwk-rider/tools/audit.mjs --rules --json`.
+`node /tmp/piy-rider/tools/audit.mjs --rules --json`.

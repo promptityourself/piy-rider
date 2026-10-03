@@ -10,7 +10,7 @@ body:
         content beyond the snippet that reproduces it.
 
         If you are running rider as a plugin, you do not have to fill this in by hand.
-        Run **`/mwk-rider:bug`** and it will write the report from what actually
+        Run **`/piy-rider:bug`** and it will write the report from what actually
         happened, show it to you, and file it once you say yes.
 
   - type: dropdown

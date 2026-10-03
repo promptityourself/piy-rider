@@ -35,12 +35,12 @@ jobs:
         run: npm run build
 
       - name: Fetch the auditor
-        run: git clone --depth 1 https://github.com/promptityourself/piy-rider.git "$RUNNER_TEMP/mwk-rider"
+        run: git clone --depth 1 https://github.com/promptityourself/piy-rider.git "$RUNNER_TEMP/piy-rider"
 
       # Universal Astro/SEO/perf practice only. Findings fail the job (exit 1).
       # Add --strict to also require this project's full opinionated baseline.
       - name: Audit
-        run: node "$RUNNER_TEMP/mwk-rider/tools/audit.mjs"
+        run: node "$RUNNER_TEMP/piy-rider/tools/audit.mjs"
 
       # Optional: measured PageSpeed scores against a deployed URL. Set
       # PAGESPEED_API_KEY as a repository secret and SITE_URL as a repository
@@ -58,4 +58,4 @@ jobs:
             echo "PAGESPEED_API_KEY or SITE_URL not set — skipping PageSpeed."
             exit 0
           fi
-          node "$RUNNER_TEMP/mwk-rider/tools/audit.mjs" -s lighthouse --url "$SITE_URL"
+          node "$RUNNER_TEMP/piy-rider/tools/audit.mjs" -s lighthouse --url "$SITE_URL"
