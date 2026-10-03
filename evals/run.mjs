@@ -87,7 +87,9 @@ function runClaude(prompt, cwd, allowedTools, timeoutMs) {
       '-p', prompt,
       '--output-format', 'stream-json', '--verbose',
       '--plugin-dir', REPO,
-      '--permission-mode', 'bypassPermissions',
+      // auto, not bypass (2026-10-03, retired fleet-wide): measured that -p runs under it
+      // and that a refusing hook still blocks. A case the classifier refuses fails loudly.
+      '--permission-mode', 'auto',
     ];
     if (allowedTools?.length) args.push('--allowedTools', ...allowedTools);
     const child = spawn('claude', args, { cwd, encoding: 'utf8' });
