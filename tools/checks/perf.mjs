@@ -260,10 +260,19 @@ function checkDeclaredFamilies(project, reporter, files) {
   }
 
   // `styles` defaults to ['normal','italic'] (astro/dist/assets/fonts/constants.js),
-  // so a family declared without it silently doubles its file count.
-  const implicit = families.filter((f) => !f.hasStyles);
+  // so a family declared without it silently doubles its file count. Except a
+  // local() family: its `variants` ARE the style list, one face per variant,
+  // and there is no default to fall foul of. tasmanvisa-web's Caveat shipped one
+  // normal face and was reported as building italic ones (#39).
+  const remote = families.filter((f) => !f.local);
+  const implicit = remote.filter((f) => !f.hasStyles);
+  if (remote.length === 0) {
+    reporter.pass(SEC, 'font:styles', `all ${families.length} declared famil${families.length === 1 ? 'y is' : 'ies are'} local() — their variants name each style, so there is no default to omit`);
+    return;
+  }
   if (implicit.length === 0) {
-    reporter.pass(SEC, 'font:styles', `all ${families.length} declared famil${families.length === 1 ? 'y sets' : 'ies set'} styles explicitly`);
+    const local = families.length - remote.length;
+    reporter.pass(SEC, 'font:styles', `all ${remote.length} provider-fetched famil${remote.length === 1 ? 'y sets' : 'ies set'} styles explicitly${local ? ` (${local} local() famil${local === 1 ? 'y lists' : 'ies list'} its own variants)` : ''}`);
     return;
   }
   // <em>, <i> and friends render italic from the UA stylesheet with no CSS at
@@ -393,10 +402,25 @@ function checkFontWeight(project, reporter, files) {
     reporter.pass(SEC, 'font:families', `${families.size} font ${families.size === 1 ? 'family' : 'families'}`);
   }
 
-  if (real.length > FONT_FACES_SUGGEST) {
-    reporter.fix(SEC, 'font:faces', `${real.length} @font-face declarations`, 'each is a separate file to download — a variable font covers a whole weight range in one');
+  // Count the FILES the declarations point at, not the declarations. A
+  // variable family declared at several weights emits one @font-face per
+  // weight, all resolving to the same woff2 — Geist Mono's four declarations
+  // were one file, and a static family asked for a weight range expands to a
+  // face per published weight. Counting declarations punished the config
+  // Astro's docs recommend and rewarded a workaround (#39). The first url() in
+  // a src is the file a browser fetches; the rest are format alternatives it
+  // skips. A local()-only face downloads nothing and is not counted.
+  const faceFiles = new Set();
+  for (const b of real) {
+    const src = b.match(/\bsrc\s*:([^;}]*)/i)?.[1] ?? '';
+    const first = src.match(/url\(\s*["']?([^"')]+)/i)?.[1];
+    if (first) faceFiles.add(first.trim());
+  }
+  const declared = `${real.length} @font-face declaration${real.length === 1 ? '' : 's'}`;
+  if (faceFiles.size > FONT_FACES_SUGGEST) {
+    reporter.fix(SEC, 'font:faces', `${faceFiles.size} font files across ${declared}`, 'each file is a separate download — a variable font covers a whole weight range in one, and a static family needs only the weights the design uses');
   } else {
-    reporter.pass(SEC, 'font:faces', `${real.length} @font-face declaration(s)`);
+    reporter.pass(SEC, 'font:faces', `${faceFiles.size} font file(s) across ${declared}`);
   }
 
   const legacy = fontFiles.filter((f) => LEGACY_FONT_RE.test(f));

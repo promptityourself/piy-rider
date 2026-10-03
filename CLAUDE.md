@@ -104,9 +104,10 @@ This repo is **piy-rider**: a Claude Code plugin whose two mode commands (`/piy-
   licence, so the block says so rather than inferring one — see `BEST-PRACTICES.md`
   § content. The fonts recipe in `references/CREATE.md` lists two weights per
   family rather than a range, which is not what Astro's docs suggest and is what
-  measured clean: a range asked of a *static* family builds one face per published
-  weight and trips `perf: font:faces` (measured 2026-09-07, Playfair Display +
-  Spectral, 5 faces → 🔧).
+  measured clean: a range asked of a *static* family builds one file per published
+  weight (measured 2026-09-07, Playfair Display + Spectral: 4 files with ranges,
+  3 listed). `perf: font:faces` counts those files, not the declarations, since
+  #39 — so the range on the *variable* family is no longer what trips it.
 - **The starter is the baseline's existence proof, not a second copy of it.** The checks define compliant; `examples/starter/` is a site that is. `references/CREATE.md` describes only the *interaction* and is forbidden from restating the rules — it points at `--rules --json` for what, and `BEST-PRACTICES.md` for why. A third prose copy of the baseline is how all three drift.
 - **Create mode copies, never composes.** It copies `${CLAUDE_PLUGIN_ROOT}/examples/starter` verbatim and edits four files. Writing files from memory is exactly how a scaffold stops matching the reference the audit keeps clean. The starter ships *inside* the plugin, so it is always the version create mode was written against — that used to be a symlink that could go missing.
 

@@ -988,16 +988,22 @@ works.
   families is enough for a content site — one for headings, one for body — and a
   variable font covers a whole weight range in one file.
   → `perf: font:bytes`, `perf: font:families` (`💡` over 2),
-  `perf: font:faces` (`💡` over 4)
+  `perf: font:faces` (`💡` over 4 files)
 
-  **Counting `@font-face` needs two corrections**, both found by measuring real
+  **Counting `@font-face` needs three corrections**, both found by measuring real
   builds rather than reasoning about them. Blocks are deduped *by content*: Astro
   inlines the same block into every page's `<style>`, so a naive count returned
   2904 for one 484-page site. And Astro's Fonts API emits a second face per
   family carrying fallback metrics, whose `font-family` contains `fallback:` —
   counting those as real families reported both correctly-configured two-font
   sites as having four, which is exactly the false positive that gets a tool
-  uninstalled.
+  uninstalled. And what costs a download is a *file*, not a declaration: a
+  variable family declared at four weights is four blocks over one woff2, so
+  the count is distinct first `url()`s in `src` (the rest of a `src` list are
+  format alternatives a browser skips). Counting blocks punished the range form
+  Astro documents for a variable font — measured twice, on Geist Mono (four
+  declarations, one file, zero bytes moved) and Playfair Display + Spectral
+  (five declarations, four files) — so it was reported as #39 and changed.
 - **woff2, not ttf/otf.** Universally supported for years and roughly half the
   bytes. Serving a raw font format to browsers is a defect on anyone's site, so
   this one is universal. → `perf: font:format`

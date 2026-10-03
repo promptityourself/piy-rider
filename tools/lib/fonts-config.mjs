@@ -13,7 +13,11 @@ export const FONT_DEFAULT_STYLES = ['normal', 'italic'];
 
 /**
  * Every family in the config's `fonts:` array, as
- * { name, cssVariable, hasStyles, hasWeights, hasSubsets }.
+ * { name, cssVariable, hasStyles, hasWeights, hasSubsets, local }.
+ *
+ * `local` is a family that names its own files — `fontProviders.local()`, whose
+ * faces are `options.variants`, each with its own style. The styles/weights
+ * defaults belong to the remote providers and never apply to one (#39).
  *
  * Returns [] when there is no fonts array — which is not the same as an empty
  * one, but no caller distinguishes them and both mean "nothing to judge".
@@ -37,6 +41,7 @@ export function fontFamilies(configText) {
       hasStyles: /\bstyles\s*:/.test(entry),
       hasWeights: /\bweights\s*:/.test(entry),
       hasSubsets: /\bsubsets\s*:/.test(entry),
+      local: /\bfontProviders\s*\.\s*local\s*\(/.test(entry) || /\bvariants\s*:/.test(entry),
     });
   }
   return out;

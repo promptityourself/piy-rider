@@ -1685,6 +1685,18 @@ check('  …but <em> in the built HTML makes it advisory, not a finding',
   runJson(emUsed, ['-s', 'perf', '--strict']).json?.results.find(r => r.id === 'perf/font-styles')?.outcome === 'suggest');
 check('  …and declaring styles explicitly → pass',
   declaredFamRow(FONTS_CFG(SORA), 'body { font-family: var(--font-sans), sans-serif; }', 'perf/font-styles')?.outcome === 'pass');
+// #39: a local() family lists its faces in options.variants, each with its own
+// style. There is no styles default for it, so the finding cannot be true —
+// tasmanvisa-web's Caveat shipped exactly one normal face and was told otherwise.
+const CAVEAT = `{ provider: fontProviders.local(), name: 'Caveat', cssVariable: '--font-sans',
+  options: { variants: [{ src: ['./src/assets/fonts/caveat.woff2'], weight: '400 700', style: 'normal' }] } }`;
+const localRow = declaredFamRow(FONTS_CFG(CAVEAT), 'body { font-family: var(--font-sans), sans-serif; }', 'perf/font-styles');
+check('  …a local() family with no styles key → pass, its variants are the style list',
+  localRow?.outcome === 'pass' && /local\(\)/.test(localRow.message ?? ''), JSON.stringify(localRow));
+const mixedRow = declaredFamRow(FONTS_CFG(`${CAVEAT}, { name: 'Inter', cssVariable: '--font-inter' }`),
+  'body { font-family: var(--font-sans), sans-serif; } code { font-family: var(--font-inter), monospace; }', 'perf/font-styles');
+check('  …while a remote family beside it that omits styles is still the finding, alone',
+  mixedRow?.outcome === 'fix' && /Inter/.test(mixedRow.message ?? '') && !/Caveat/.test(mixedRow.message ?? ''), JSON.stringify(mixedRow));
 
 console.log('the new practices fire on a known-bad build and stay quiet on a good one:');
 // House style: advisory by default, binding under --strict. Both halves matter —
@@ -1787,6 +1799,18 @@ const twoFonts = mkBuilt({
 const famRow = row(twoFonts, 'perf', 'perf/font-families');
 check('two families with Astro fallback faces, inlined on every page → 2, not 4',
   famRow?.outcome === 'pass' && /\b2 font families\b/.test(famRow?.message ?? ''), JSON.stringify(famRow));
+// #39: count files, not declarations. A variable family at four weights is
+// four @font-face blocks over ONE woff2 — measured on Geist Mono, and again on
+// Playfair Display (5 declarations, 4 files) when Astro's documented range form
+// was used. The control: five genuinely distinct files still fire.
+const VFACE = (w, file) => `@font-face{font-family:"geist-0123456789abcdef";font-weight:${w};src:url(/f/${file}.woff2) format("woff2"),url(/f/${file}.woff) format("woff")}`;
+const facesRow = (css) => row(mkBuilt({ 'dist/index.html': `<html><head><style>${css}</style></head><body><h1>a</h1></body></html>` }), 'perf', 'perf/font-faces');
+const shared = facesRow([400, 500, 600, 700, 800].map((w) => VFACE(w, 'geist')).join('\n'));
+check('five @font-face declarations over one variable file → pass, counted as 1 file',
+  shared?.outcome === 'pass' && /\b1 font file/.test(shared.message ?? ''), JSON.stringify(shared));
+const distinct = facesRow([400, 500, 600, 700, 800].map((w) => VFACE(w, `geist-${w}`)).join('\n'));
+check('  …while five declarations over five distinct files → fix',
+  distinct?.outcome === 'fix' && /\b5 font files across 5/.test(distinct.message ?? ''), JSON.stringify(distinct));
 const ttf = mkBuilt({ 'dist/index.html': '<html><body>x</body></html>', 'dist/f/x.ttf': 'x'.repeat(1024) });
 check('a .ttf served to browsers is flagged (universal, not house style)',
   runJson(ttf, ['-s', 'perf']).json?.results.find(r => r.id === 'perf/font-format')?.outcome === 'fix');
