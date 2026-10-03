@@ -6,51 +6,54 @@
 //
 // ## Brand
 //
-// The tokens are Mate Wish Key's, read off https://matewishkey.com/design/ on
-// 2026-09-06. The design page states ROLES, not swatches, and several of them
-// are not what you would guess — the first pass of this file guessed and got
-// four wrong. The table, light / dark:
+// The tokens are Prompt It Yourself's, read off the brand's own design spec and
+// stylesheet (promptityourself-web: DESIGN.md, src/styles/global.css) on
+// 2026-10-03. It replaced the retired Mate Wish Key brand, whose palette it kept
+// almost unchanged — so the table below is the same roles it always was. The
+// spec states ROLES, not swatches, and several are not what you would guess.
+// The table, light / dark:
 //
-//   --red        #e2342b / #e2342b  SURFACE and display only: the block, the
-//                                   mark, a heading word at 19px/700 or bigger.
-//                                   Never a paragraph, never a caption, never a
-//                                   small link, and never a fill with a label on
-//                                   it. Same value in both themes.
-//   --red-field  #c9251d / #c9251d  the fill for a red thing WITH WORDS on it.
-//                                   One value both themes: what it clears is the
-//                                   white label on top, not the page beneath.
+//   --red        #e2342b / #e2342b  SURFACE and display only: fills and big
+//                                   title words. Never a paragraph, never a
+//                                   caption, never a small link, and never a
+//                                   fill with a label on it. Same value in both
+//                                   themes.
+//   --red-field  #c9251d / #c9251d  the fill for a red thing WITH WORDS on it,
+//                                   and the logo tile. One value both themes:
+//                                   what it clears is the white label on top,
+//                                   not the page beneath.
 //   --red-deep   #c9251d / #f0524a  the ONLY red allowed at body size — links,
-//                                   kickers, small bold, inline code.
+//                                   small bold, inline code.
 //   --paper      #ffffff / #131313  the page, and nearly everything is page.
 //   --panel      #faf7f7 / #1d1a1a  the one quiet field: the footer, the code
-//                                   gutter. A CARD IS NOT THIS — a card is the
-//                                   page with a hairline round it, which is what
-//                                   lets the whole thing run on two grounds
+//                                   background. A CARD IS NOT THIS — a card is
+//                                   the page with a hairline round it, which is
+//                                   what lets the whole thing run on two grounds
 //                                   instead of three.
-//   --line       #e3dbdb / #322929  hairlines. Decorative; nothing you need to
-//                                   see is drawn in it.
-//   --edge       #8a848e / #7a7482  the border of something clickable — 3:1
-//                                   non-text contrast. NOT a text colour.
+//   --line       #e3dbdb / #322929  hairlines and card borders.
+//   --edge       #8a848e / #7a7482  ours, not the spec's: the border of
+//                                   something clickable — 3:1 non-text
+//                                   contrast. NOT a text colour.
 //   --ink        #16151a / #f4f2f6  body copy and headings.
-//   --mute       #56525c / #a8a2b0  standfirst, meta lines, captions, kickers.
-//   --green      #00773d / #7fd79a  the companion hue, equal standing with
-//                                   --red-deep, neither shouting over the other.
+//   --mute       #56525c / #a8a2b0  standfirst, meta lines, captions.
+//   --green      #00773d / #7fd79a  a genuinely good state only — the clear
+//                                   verdict.
 //
-// The logo is the BLOCK — "a red square with the white mark centred in it, not
-// the bare mark", one state at every size, mark at 64%. The wordmark has two
-// variants and the footer needs the quiet one: the default sets the middle word
-// in --red, but below ~19px red stops being a display colour, so a 14px footer
-// wordmark sets all three words in --ink. The design page names the footer
-// wordmark specifically as where you meet that rule.
+// The logo is the TILE: white P|Y on a --red-field square, one colour for every
+// glyph, never redrawn and never set in a font. The paths below are the brand's
+// generated master, laid out as its favicon lays them out. The site name beside
+// it is the text "prompt it yourself", lowercase, in the code face, in --ink.
 //
-// "Three strokes, no numbers": nothing on the site uses a number as a MARKER —
-// no ordered lists, no numbered steps. Counts that were measured are a different
-// thing and are fine, which is what the tiles are.
+// Square corners everywhere, nothing moves, nothing changes on hover, and no
+// numbers or `/ \ |` strokes used as markers. Counts that were measured are
+// not markers, which is what the tiles are.
 //
-// Fonts are named, never fetched. The brand serves Fraunces/Manrope/JetBrains
-// Mono self-hosted under content-hashed family names that resolve nowhere else,
-// and this repo does not put a font CDN in front of a user. Each stack names the
-// real family first, then the fallbacks the design page itself declares.
+// Fonts are named, never fetched. Titles are Bebas Neue, one weight, and only
+// at ~32px and up; everything read is Helvetica Neue and code is Menlo — both
+// already on every Mac, so the brand downloads nothing for them either. This
+// repo does not put a font CDN in front of a user, so where Bebas Neue is not
+// installed the title falls back to the reading face, which is a plainer page
+// and not a broken one.
 //
 // ## Escaping is a security property here, not tidiness
 //
@@ -61,19 +64,19 @@
 // through `esc()`. There is no "this one is safe" exception, because the whole
 // point of the untrusted boundary is that we do not get to decide that.
 
-// Verified 2026-09-06: 200. It currently redirects to matewishkey.com/show/ and
-// does not preserve the /mwk-rider path — so it lands on the show page, which is
-// where it is meant to send someone either way.
-const HELP_URL = 'https://mwkshow.com/mwk-rider';
+// Verified 2026-10-03: 200, served directly. The show's own page, which is
+// where someone who wants a hand rather than a fix is meant to land.
+const HELP_URL = 'https://promptityourself.com/show/';
 
-// The mark, exactly as the design page draws it: two strokes, round caps, drawn
-// in currentColor so the block can set it white.
-const MARK_PATHS = '<path d="M0 100 L23.09 0 L46.17 100 L69.26 0 L69.26 100"/>'
-  + '<path d="M69.26 100 L118.03 0"/>';
-const MARK = (px) => `<svg class="mk" width="${px}" height="${Math.round(px * 200 / 232)}" `
-  + `viewBox="-6.75 -6.75 131.53 113.5" fill="none" aria-hidden="true" focusable="false" `
-  + `stroke="currentColor" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round">`
-  + `${MARK_PATHS}</svg>`;
+// The tile, exactly as the brand draws it (promptityourself-web,
+// src/components/Logo.astro over src/data/logo-mark.ts): the P, the Y, and
+// the cursor between them — the I that was typed and deleted.
+const LOGO_PATHS = '<path d="M44.25 -47.25L44.25 -47.25Q44.25 -52 42.425 -54.85Q40.6 -57.7 37.275 -59Q33.95 -60.3 29.45 -60.3L29.45 -60.3L21.15 -60.3L21.15 -33.45L29.6 -33.45Q33.95 -33.45 37.25 -34.75Q40.55 -36.05 42.4 -39.05Q44.25 -42.05 44.25 -47.25ZM56.45 -47.35L56.45 -47.35Q56.45 -39.3 53.025 -34.3Q49.6 -29.3 43.5 -26.95Q37.4 -24.6 29.5 -24.6L29.5 -24.6L21.15 -24.6L21.15 0L9.55 0L9.55 -69L28.7 -69Q41.7 -69 49.075 -63.675Q56.45 -58.35 56.45 -47.35Z"/>'
+  + '<path d="M139.85 -69L116.85 -26.35L116.85 0L105.15 0L105.15 -26.25L82.15 -69L94.9 -69L111.25 -36.3L127.7 -69L139.85 -69Z"/>'
+  + '<rect x="64.75" y="-79.35" width="11.5" height="89.7"/>';
+const LOGO = (px) => `<svg class="logo" width="${px}" height="${px}" viewBox="0 0 100 100" `
+  + `aria-hidden="true" focusable="false"><rect width="100" height="100" fill="#c9251d"/>`
+  + `<g transform="translate(8.723 69.064) scale(0.553)" fill="#ffffff">${LOGO_PATHS}</g></svg>`;
 
 const ICON = { block: '🛑', fix: '🔧', suggest: '💡', skip: '⏭', pass: '✅' };
 const LABEL = {
@@ -175,9 +178,9 @@ export function renderReport(run, meta = {}) {
   --red:#e2342b; --red-field:#c9251d; --red-deep:#c9251d;
   --paper:#ffffff; --panel:#faf7f7; --line:#e3dbdb; --edge:#8a848e;
   --ink:#16151a; --mute:#56525c; --green:#00773d;
-  --display:Fraunces,"Times New Roman",Times,serif;
-  --body:Manrope,Arial,Helvetica,sans-serif;
-  --mono:"JetBrains Mono","Courier New",monospace;
+  --title:"Bebas Neue","Helvetica Neue",Helvetica,Arial,"Nimbus Sans",sans-serif;
+  --body:"Helvetica Neue",Helvetica,Arial,"Nimbus Sans",sans-serif;
+  --mono:Menlo,Consolas,"DejaVu Sans Mono",monospace;
 }
 /* --red and --red-field are ONE value in both themes; only the grounds, the
    inks and the two readable hues move. */
@@ -189,55 +192,52 @@ export function renderReport(run, meta = {}) {
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   line-height:1.55;-webkit-text-size-adjust:100%}
 .wrap{max-width:52rem;margin:0 auto;padding:2.5rem 1.25rem 0}
-a{color:var(--red-deep)}
-/* The logo is the block, not the bare mark: red square, white mark at 64%. */
-.rb{display:grid;place-items:center;background:var(--red);color:#fff;
-  width:var(--rb,44px);height:var(--rb,44px);flex:none}
-.rb .mk{width:64%;height:auto}
-/* --red is a display colour and this is 700 weight, far above 19px. */
-h1{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.9rem);font-weight:700;
-  line-height:1.1;margin:0 0 .4rem}
+a{color:var(--red-deep);text-underline-offset:.15em}
+.logo{display:block;flex:none}
+/* Titles: Bebas Neue, one weight, never faked bold, and only from ~32px. */
+h1,.tile b{font-family:var(--title);font-weight:400;font-synthesis:none;letter-spacing:.01em}
+h1{font-size:clamp(2.75rem,6vw,4rem);line-height:.95;margin:0 0 .6rem}
+/* --red is a display colour, and a title word is display. */
 h1 .hl{color:var(--red)}
 .sub{color:var(--mute);font-size:.95rem;margin:0 0 1.6rem}
 /* White words on red → --red-field, never --red. */
 .verdict{display:inline-block;background:var(--red-field);color:#fff;font-weight:700;
-  padding:.45rem .9rem;border-radius:.4rem;margin:0 0 2rem}
+  padding:.45rem .9rem;margin:0 0 2rem}
 .verdict.clear{background:var(--green);color:var(--paper)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.75rem;margin:0 0 2.5rem}
 /* A card is the PAGE with a hairline round it — two grounds, never three. */
-.tile,.f,summary,.help{background:var(--paper);border:1px solid var(--line);border-radius:.6rem}
+.tile,.f,summary,.help{background:var(--paper);border:1px solid var(--line)}
 .tile{padding:.9rem 1rem}
-.tile b{display:block;font-family:var(--display);font-size:1.9rem;font-weight:700;line-height:1}
-.tile span{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+.tile b{display:block;font-size:2.5rem;line-height:1}
+.tile span{color:var(--mute);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 .note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--red);
-  border-radius:.4rem;padding:.8rem 1rem;margin:0 0 1.5rem;font-size:.9rem;color:var(--ink)}
+  padding:.8rem 1rem;margin:0 0 1.5rem;font-size:.9rem;color:var(--ink)}
 .grp{margin:0 0 1rem}
+/* Below title size, so the reading face at weight. */
 summary{cursor:pointer;display:flex;align-items:center;gap:.6rem;padding:.7rem .9rem;
-  font-family:var(--display);font-size:1.15rem;font-weight:700}
+  font-size:1.125rem;font-weight:700}
 summary::-webkit-details-marker{display:none}
-.grp-n{margin-left:auto;color:var(--mute);font-family:var(--body);font-size:.9rem;font-weight:400}
+.grp-n{margin-left:auto;color:var(--mute);font-size:.9rem;font-weight:400}
 .fs{list-style:none;margin:.5rem 0 0;padding:0}
 .f{padding:.8rem .95rem;margin:0 0 .5rem}
 .f p{margin:0}
 /* Inline code is body size, so it takes the only red allowed there. */
 .rid{font-family:var(--mono);font-size:.8rem;color:var(--red-deep);background:var(--panel);
-  border:1px solid var(--line);border-radius:.3rem;padding:.05rem .35rem;margin-right:.35rem;white-space:nowrap}
+  border:1px solid var(--line);padding:.05rem .35rem;margin-right:.35rem;white-space:nowrap}
 .f-msg{overflow-wrap:anywhere}
 .f-fix{margin-top:.4rem;font-size:.92rem;color:var(--ink);overflow-wrap:anywhere}
 .f-fix-label{font-weight:700;color:var(--red-deep)}
 .f-at{margin-top:.3rem;font-family:var(--mono);font-size:.78rem;color:var(--mute);overflow-wrap:anywhere}
-/* --panel is the one quiet field, and the design page names the footer as it. */
+/* --panel is the one quiet field, and the spec names the footer as it. */
 .foot{background:var(--panel);border-top:1px solid var(--line);margin-top:3.5rem}
 .foot-in{max-width:52rem;margin:0 auto;padding:2.2rem 1.25rem 2.6rem}
 .help{padding:1.3rem;margin:0 0 1.8rem}
-.help h2{font-family:var(--display);font-size:1.35rem;font-weight:700;margin:0 0 .6rem;color:var(--red)}
+.help h2{font-size:1.25rem;font-weight:700;margin:0 0 .6rem;color:var(--ink)}
 .help p{margin:0 0 1rem;color:var(--ink)}
-.cta{display:inline-flex;align-items:center;gap:.55rem;background:var(--red-field);color:#fff;
-  text-decoration:none;font-weight:700;padding:.6rem 1.05rem;border-radius:.4rem}
-.cta .rb{--rb:20px;background:transparent}
-/* The wordmark at 14px: below display size, so all three words take --ink. */
-.wm{display:flex;align-items:center;gap:.6rem;font-size:14px;color:var(--ink);font-weight:700}
-.wm .rb{--rb:26px}
+.cta{display:inline-block;background:var(--red-field);color:#fff;
+  text-decoration:none;font-weight:700;padding:.6rem 1.05rem}
+/* The site name: lowercase, the code face, --ink, beside the tile. */
+.wm{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:15px;color:var(--ink)}
 .meta{color:var(--mute);font-size:.82rem;margin:.7rem 0 0}
 .meta a{color:var(--red-deep)}
 /* A CLOSED <details> prints nothing — the suggestions, the skips and every
@@ -287,13 +287,13 @@ ${section('pass', by('pass'))}
     <code class="rid">--fix</code>, then re-run to prove they worked.</p>
     <p>If you want a hand rather than a fix — someone to talk it through, or to work on it with you —
     come on the show.</p>
-    <a class="cta" href="${HELP_URL}"><span class="rb">${MARK(20)}</span> Come on the show</a>
+    <a class="cta" href="${HELP_URL}">Come on the show</a>
   </section>
 
-  <div class="wm"><span class="rb">${MARK(26)}</span> Mate Wish Key</div>
+  <div class="wm">${LOGO(32)} prompt it yourself</div>
   <p class="meta">Generated by rider${meta.version ? ` ${esc(meta.version)}` : ''} — an open-source
   best-practices auditor for Astro sites. Every finding names what it measured, and a check that
-  could not run says so rather than passing. <a href="${HELP_URL}">mwkshow.com</a></p>
+  could not run says so rather than passing. <a href="${HELP_URL}">promptityourself.com</a></p>
 
 </div></footer>
 <script>

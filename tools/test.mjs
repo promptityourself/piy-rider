@@ -3339,7 +3339,7 @@ check('  \u2026whose body contains nothing from the finding',
 const reportBody = hostileReport.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
 const OURS = new Set(['doctype', 'html', 'head', 'meta', 'title', 'style', 'body', 'main', 'h1',
   'h2', 'h3', 'p', 'span', 'div', 'b', 'strong', 'code', 'ul', 'li', 'section', 'details', 'summary',
-  'a', 'footer', 'br', 'svg', 'path']);   // svg/path are the logo, drawn inline
+  'a', 'footer', 'br', 'svg', 'path', 'rect', 'g']);   // svg/path/rect/g are the logo tile, drawn inline
 const foreignTags = [...new Set([...reportBody.matchAll(/<\/?([a-zA-Z][a-zA-Z0-9-]*)/g)]
   .map((m) => m[1].toLowerCase()))].filter((t) => !OURS.has(t));
 check('a hostile finding cannot introduce a tag into the report',
@@ -3358,10 +3358,11 @@ const handlered = realTags.filter((t) => /\son[a-z]+\s*=/i.test(t));
 check('  \u2026and no tag in the document carries an event handler',
   handlered.length === 0, handlered.slice(0, 2).join(' | '));
 
-// mwkshow.com resolves (200, redirecting to matewishkey.com/show/). The www form
-// does NOT resolve at all, so it must never appear.
-check('the help route is the short link that resolves, never the www form',
-  hostileReport.includes('https://mwkshow.com') && !hostileReport.includes('www.mwkshow.com'));
+// The help route is the show's own page, served directly (200, verified
+// 2026-10-03). It used to be a retired brand's short link riding a redirect;
+// a page a stranger keeps must not depend on one.
+check('the help route is the show page on the brand\'s own domain',
+  hostileReport.includes('href="https://promptityourself.com/show/"') && !/mwkshow|matewishkey/i.test(hostileReport));
 // --red is a display/surface colour and --red-field is the fill under a white
 // label; the design page states that as a rule, and swapping them fails contrast.
 check('the report carries both brand reds, and puts white labels on the field colour',
