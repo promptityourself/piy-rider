@@ -21,7 +21,7 @@ This repo is **piy-rider**: a Claude Code plugin whose two mode commands (`/piy-
   `lighthouse`, `browser` only with `--url`.
 
   **What each one checks is NOT written here — `node tools/audit.mjs --rules --json` is
-  the authoritative list**: every rule with its id, section, severity, mode and why.
+  the authoritative list**, 173 rules with each one's id, section, severity, mode and why.
   A prose copy of it used to sit in this bullet and drifted: four releases after
   `images: srcset:missing` was promoted, this file still gave it the severity it had
   before — in the document every session in this repo loads. `README.md` and `tools/README.md`
@@ -71,7 +71,7 @@ This repo is **piy-rider**: a Claude Code plugin whose two mode commands (`/piy-
   "dateless variant", was every unreadable-page run (#43).
 
   **It is not an inventory of universal rules, and absence from it means
-  nothing.** Most universal rules are uncited, and they should
+  nothing.** 74 of the 113 universal rules are uncited and most of them should
   be: the `modules` domain answers to Astro's own docs, `perf` and image
   delivery to the web platform, the `og:*` tags to the Open Graph protocol, the
   JSON-LD shapes to schema.org, the scores to Lighthouse, and a dozen rows are
@@ -132,5 +132,5 @@ that is data. The release ceremony is the real cost, and the fix for that is few
 releases — not a different format. The standalone CLI already exists and CI uses it; the
 two are not alternatives.
 
-`.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json`; `commands/` and `skills/` are found by convention. **The plugin root is the repo root** (`"source": "./"`), so a root `.mcp.json` or `hooks/` installs for every user, not just this repo's sessions. **Dogfood through the marketplace, not `--plugin-dir`** — `--plugin-dir` loads the working tree and so cannot surface an install or packaging bug; push, update and restart per `docs/DEVELOPING.md` § Releasing. `--plugin-dir` is for a fast inner loop only. **`${CLAUDE_PLUGIN_ROOT}` is expanded in the markdown before the model sees it and is NOT set in the shell** — verified, and the reason a path can look right and still fail at the first Bash call. Working on the plugin means `claude --plugin-dir ~/projects/piy-rider`; an installed copy is version-pinned in the plugin cache and a `git pull` here does not touch it.
+`.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json`; `commands/` and `skills/` are found by convention. **The plugin root is the repo root** (`"source": "./"`), so an MCP server or hook declared at the root installs for every user, not just this repo's sessions. **Dogfood through the marketplace, not `--plugin-dir`** — `--plugin-dir` loads the working tree and so cannot surface an install or packaging bug; push, update and restart per `docs/DEVELOPING.md` § Releasing. `--plugin-dir` is for a fast inner loop only. **`${CLAUDE_PLUGIN_ROOT}` is expanded in the markdown before the model sees it and is NOT set in the shell** — verified, and the reason a path can look right and still fail at the first Bash call. Working on the plugin means `claude --plugin-dir ~/projects/piy-rider`; an installed copy is version-pinned in the plugin cache and a `git pull` here does not touch it.
 
