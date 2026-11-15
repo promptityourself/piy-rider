@@ -284,8 +284,6 @@ SECURITY.md                  what the tool reads, what it never executes, how to
                              config.yml — points the rest at the plugin's own /piy-rider:bug
                              (/piy-rider:bug posts a free-form issue instead)
 .env.example                 the optional API keys
-.mcp.json                    declares context7 (the doc-lookup rule needs it);
-                             the key comes from $CONTEXT7_API_KEY, never the file
 .claude/settings.json        recommends the frontend-design and plugin-dev plugins
 ```
 

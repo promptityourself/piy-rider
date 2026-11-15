@@ -674,7 +674,7 @@ function findInDist(dir, nameRe, re, budget = { n: 400 }) {
  * static site, replacing Pages for new projects — that is not the question. An
  * unmatched request is answered by the Worker if there is one, and otherwise by
  * a bare platform 404: the site's own `404.html` is not consulted unless
- * `assets.not_found_handling` says so. Verified via context7 on 2026-09-03:
+ * `assets.not_found_handling` says so. Verified against the Cloudflare docs on 2026-09-03:
  *
  *   "If no matching asset is found and a Worker script is present, the request
  *    will be processed by the Worker. If no Worker script is present, a 404 Not

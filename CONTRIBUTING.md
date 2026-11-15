@@ -26,17 +26,15 @@ cd piy-rider
 node tools/test.mjs          # the gate — must pass
 ```
 
-That covers the tool and the offline audit. Three things are optional, and each one
+That covers the tool and the offline audit. Two things are optional, and each one
 buys a specific thing rather than being general setup:
 
 | | what it unlocks | without it |
 |---|---|---|
 | `npm ci && npx playwright install chromium` in `examples/_fixture-i18n` | the `browser` domain, and the `nav:reach` assertions in the test suite | the suite prints `⏭ nav:reach not exercised` and stays green |
 | `$PAGESPEED_API_KEY` (free) | the `lighthouse` domain | `⏭ lighthouse: psi` |
-| **context7** — declared in this repo's `.mcp.json` | the Astro/Cloudflare doc lookups [step 1 of adding a practice](BEST-PRACTICES.md#how-we-add-a-practice) requires | nothing enforces the rule, which is how it went unnoticed that it was never wired |
 
-context7 needs `CONTEXT7_API_KEY` in your environment; the repo declares the server, never
-the key. `.claude/settings.json` likewise *recommends* the `frontend-design` and
+`.claude/settings.json` *recommends* the `frontend-design` and
 `plugin-dev` plugins rather than requiring them — Claude Code asks before enabling either,
 and neither is needed to run the tool or the gate.
 

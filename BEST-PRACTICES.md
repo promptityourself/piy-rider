@@ -89,7 +89,7 @@ as "required by default".
 When an audited site hits a problem worth preventing everywhere:
 
 1. **Understand the requirement.** Read the underlying integration/service docs
-   via `context7` (Astro, Cloudflare, the relevant plugin) — encode the real
+   (`docs.astro.build`, `developers.cloudflare.com`, the plugin's own README) — encode the real
    contract, not a guess. This is a hard rule for Astro/Cloudflare specifics.
 2. **Write the practice here** — what it is and *why* (the failure it prevents).
 3. **Bake the check** into `tools/checks/<domain>.mjs`. Reuse `tools/lib/`
@@ -290,7 +290,7 @@ whole fixture run, so a new check cannot quietly reintroduce a mute pass.
   way to deploy a static site — *"replacing Pages for new projects"* — and there,
   an unmatched URL is answered by the Worker if there is one and otherwise by a
   bare platform 404. The site's own `404.html` is not consulted unless
-  `assets.not_found_handling` says so (verified via context7, 2026-09-03):
+  `assets.not_found_handling` says so (verified against the Cloudflare docs, 2026-09-03):
 
   > If no matching asset is found and a Worker script is present, the request
   > will be processed by the Worker. If no Worker script is present, a 404 Not
@@ -533,8 +533,8 @@ thing a version bump leaves behind. Each maps to a documented v7 breaking change
 - **hreflang alternates on a multi-locale site.** Two or more locales in the
   config and no `hreflang` anywhere means each translation competes with the
   others as a duplicate. Either carrier counts: `@astrojs/sitemap`'s `i18n`
-  option writes `<xhtml:link rel="alternate">` into the sitemap (verified via
-  context7 against the integration docs, 2026-09-04), and a per-page
+  option writes `<xhtml:link rel="alternate">` into the sitemap (verified
+  against the integration docs, 2026-09-04), and a per-page
   `<link rel="alternate" hreflang>` in the head says the same thing. It runs
   **only** when the config names ≥2 locales — on a single-language site there is
   nothing to alternate between, and firing there would be the one thing a check

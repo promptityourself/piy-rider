@@ -6,7 +6,7 @@
 //     onerror=redirect then serves the raw source to clients that don't accept it
 //   - missing quality=: Cloudflare defaults to 85; an explicit cap (e.g. 80) is
 //     usually a large win on photographic content
-// Aliases per Cloudflare docs: format|f, quality|q. (Verified via context7.)
+// Aliases per Cloudflare docs: format|f, quality|q.
 
 
 // The options segment between /cdn-cgi/image/ and the source path, or null.
