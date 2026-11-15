@@ -20,7 +20,7 @@
     "What it DOES say: where this tool encodes a rule *because Google Search behaves that",
     "way*, the page and the date are written down, and a machine re-reads them."
   ],
-  "read": "2026-10-03",
+  "read": "2026-11-15",
   "feed": "https://developers.google.com/search/updates/search_docs_updates.rss",
   "sources": [
     {
@@ -91,7 +91,7 @@
     {
       "slug": "favicon",
       "url": "https://developers.google.com/search/docs/appearance/favicon-in-search",
-      "updated": "2026-08-28",
+      "updated": "2026-10-27",
       "backs": [
         "seo/favicon",
         "seo/favicon-size"
@@ -111,7 +111,7 @@
     {
       "slug": "search-gallery",
       "url": "https://developers.google.com/search/docs/appearance/structured-data/search-gallery",
-      "updated": "2026-06-15",
+      "updated": "2026-10-16",
       "backs": [
         "data/jsonld-deprecated"
       ]
@@ -149,7 +149,7 @@
     {
       "slug": "robots-txt",
       "url": "https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt",
-      "updated": "2026-08-31",
+      "updated": "2026-10-23",
       "backs": [
         "seo/robots",
         "seo/robots-blocks-all",

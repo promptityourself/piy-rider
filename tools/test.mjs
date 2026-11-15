@@ -2828,6 +2828,20 @@ console.log('nine review findings, and the guard on each:');
   });
   check('  …while the shorter Disallow still loses to Allow (the control)',
     row(allowed, 'seo', 'seo/sitemap-blocked')?.outcome === 'pass');
+  // The tie, wildcards counted: Google's /page.php5 example (Allow: /page,
+  // Disallow: /*.ph — both 5 characters) applies the Allow, "the least
+  // restrictive rule". Same length as the /pa*ge case above, so this pins the tie-break
+  // rather than the length.
+  const tie = mkBuilt({
+    'dist/robots.txt': 'User-agent: *\nAllow: /page\nDisallow: /p*ge\nSitemap: https://ex.test/sitemap-index.xml\n',
+    'dist/sitemap-0.xml': '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+      + '<url><loc>https://ex.test/page</loc></url></urlset>',
+    'dist/page/index.html': '<!doctype html><html lang="en"><head><title>p</title>'
+      + '<link rel="canonical" href="https://ex.test/page"></head><body><h1>p</h1></body></html>',
+  });
+  check('  …and an equal-length Disallow ties, which Allow wins',
+    row(tie, 'seo', 'seo/sitemap-blocked')?.outcome === 'pass',
+    JSON.stringify(row(tie, 'seo', 'seo/sitemap-blocked')));
 }
 
 // 4. Source greps in the data domain read comment-blanked text.

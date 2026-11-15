@@ -41,28 +41,25 @@ const doc = JSON.parse(readFileSync(FILE, 'utf8'));
 const today = new Date().toISOString().slice(0, 10);
 
 /**
- * The date the page prints, with one retry.
+ * The date the page prints.
  *
- * No custom user-agent, and that is not an oversight: developers.google.com
- * serves two variants of these pages, and the smaller one carries no "Last
- * updated" line at all. Which one you get moves with the UA — a browser string
- * got the date on one run and the dateless variant on the next — so the header
- * is left off and a miss is retried rather than believed. Measured 2026-09-06.
+ * `Accept-Language: en` is load-bearing. Without it developers.google.com picks
+ * a locale per request and serves a machine translation (`<html
+ * lang="de-x-mtfrom-en">`), where "Last updated" is in German and the pattern
+ * above cannot match. Measured 2026-11-15 on sd-policies: 11/15 fetches dated
+ * with no header, five locales seen; 15/15 dated and English with it. That was
+ * the "dateless variant" this used to retry around — the retries hid the cause
+ * and still lost 2 of 19 pages on a bad run (issue #43).
+ *
+ * With the cause fixed, a missing date is the page itself changing — a
+ * restructure, or a redirect to a removal notice — which is exactly the event
+ * this script exists to catch, so it is reported, not retried.
  */
-async function fetchDate(url, attempt = 0) {
-  const res = await fetch(url, { redirect: 'follow' });
+async function fetchDate(url) {
+  const res = await fetch(url, { redirect: 'follow', headers: { 'Accept-Language': 'en' } });
   if (!res.ok) return { error: `HTTP ${res.status}` };
   const m = UPDATED_RE.exec(await res.text());
-  if (m) return { updated: m[1] };
-  // No date is not "unchanged" — the page may have been restructured, or
-  // replaced by a redirect to a removal notice, which is exactly the event this
-  // script exists to catch. But it is also what the dateless variant looks
-  // like, so ask twice before saying so.
-  if (attempt < 5) {
-    await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
-    return fetchDate(url, attempt + 1);
-  }
-  return { error: 'no "Last updated" date on the page after 6 tries' };
+  return m ? { updated: m[1] } : { error: 'no "Last updated" date on the page' };
 }
 
 const rows = [];
@@ -102,6 +99,13 @@ if (asJson) {
   } else {
     console.log('No page has changed since it was read.');
   }
+}
+
+// A page that failed to read was not read, so --accept must not stamp `read`
+// with today over it: that would record a check that never happened.
+if (accept && failed.length) {
+  console.error(`\n--accept refused: ${failed.length} page(s) could not be read (${failed.map((r) => r.slug).join(', ')}). Re-run once every page reads.`);
+  process.exit(1);
 }
 
 if (accept) {

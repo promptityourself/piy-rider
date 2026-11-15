@@ -65,9 +65,10 @@ This repo is **piy-rider**: a Claude Code plugin whose two mode commands (`/piy-
   ids resting on it. `node scripts/google-sources.mjs` re-reads them and exits
   non-zero when one has moved; a weekly workflow opens one issue naming the page
   and its rules. `--accept` records the new dates once a human has re-read the
-  page. **Never bump a date without reading the page**, and note that Google
-  serves a dateless variant of these pages — the script sends no user-agent and
-  retries for that reason.
+  page. **Never bump a date without reading the page**. The script sends
+  `Accept-Language: en` because without it Google serves a random machine
+  translation, whose "Last updated" line the script cannot read — that, not a
+  "dateless variant", was every unreadable-page run (#43).
 
   **It is not an inventory of universal rules, and absence from it means
   nothing.** 74 of the 113 universal rules are uncited and most of them should
